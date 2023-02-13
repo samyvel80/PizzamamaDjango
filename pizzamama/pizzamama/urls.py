@@ -15,9 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
+#from rest_framework import routers
+from menu.views import PizzaViewset
+#router = routers.SimpleRouter()
+#router.register('PizzaViewset', PizzaViewset, basename='pizzaviewset')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('menu-pizza/', include('menu.urls')),
     path('', include('main.urls')),
+    #path('pizza-api/', include('router.urls')),
+    path('pizza/', include('pizzamama.routers')),
+    path('auth', obtain_auth_token),
 ]
