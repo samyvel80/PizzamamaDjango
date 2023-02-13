@@ -16,6 +16,8 @@ import json
 
 from api.permissions import IsStaffPermission
 
+from api.mixin import StaffEditorPermissionsMixin
+
 
 # Create your views here.
 
@@ -35,29 +37,20 @@ class PizzaViewset(viewsets.ModelViewSet):
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
 
-class ListCreatePizzaView(generics.ListCreateAPIView):
+class ListCreatePizzaView(
+    generics.ListCreateAPIView,
+    StaffEditorPermissionsMixin
+    ):
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
-    authentication_classes = [authentication.SessionAuthentication, TokenAuthentication]# permet l'authentification par session
-    permission_classes = [permissions.IsAdminUser, IsStaffPermission]
+    #authentication_classes = [authentication.SessionAuthentication, TokenAuthentication]# permet l'authentification par session
+    #permission_classes = [permissions.IsAdminUser, IsStaffPermission]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
     def perform_create(self, serializer):
         name = serializer.validated_data.get('nom')
         serializer.save()
-
-    def get_queryset(self):
-        #queryset = Pizza.objects.all()
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
-        """
-        nom = self.request.query_params.get('nom')
-        if nom is not None:
-            return super().get_queryset().filter(nom__icontains=nom)
-        return super().get_queryset()
-        #return queryset
 
 
 
