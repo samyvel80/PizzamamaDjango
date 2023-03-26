@@ -1,10 +1,3 @@
-from api.permissions import IsStaffPermission
-from rest_framework import permissions
-
-class StaffEditorPermissionsMixin():
-    permission_classes = [permissions.IsAdminUser, IsStaffPermission]
-
-
 class UserQuerrySetMixin():
     user_field = 'user'
     def get_queryset(self,*args, **kwargs):

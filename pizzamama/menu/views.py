@@ -12,11 +12,13 @@ from rest_framework.decorators import api_view
 from rest_framework import viewsets
 from .authentication import TokenAuthentication
 
+
 import json
 
 from api.permissions import IsStaffPermission
 
 from api.mixin import StaffEditorPermissionsMixin
+from .mix import UserQuerrySetMixin
 
 
 # Create your views here.
@@ -39,7 +41,8 @@ class PizzaViewset(viewsets.ModelViewSet):
 
 class ListCreatePizzaView(
     generics.ListCreateAPIView,
-    StaffEditorPermissionsMixin
+    StaffEditorPermissionsMixin,
+    UserQuerrySetMixin,
     ):
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
@@ -49,8 +52,15 @@ class ListCreatePizzaView(
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
     def perform_create(self, serializer):
-        name = serializer.validated_data.get('nom')
-        serializer.save()
+        email = serializer.validated_data.pop('email')
+        print(serializer.validated_data)
+        #name = serializer.validated_data.get('nom')
+        serializer.save(user=self.request.user) #on ajoute le user dans la sauvegarde
+
+    #def get_queryset(self):
+    #    qs = super().get_queryset()
+    #    user = self.request.user
+    #    return qs.filter(user=user)
 
 
 
