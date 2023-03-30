@@ -15,6 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+#for displaying static page
+STATIC_ROOT= os.path.join(BASE_DIR, 'static_deploy')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -25,7 +27,7 @@ SECRET_KEY = '_22&r^vkf#2*xxb3na$c6=6e%%=-eyrvh_xv5*h@bq&w1xfot&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost',"127.0.0.1"]
 
 
 # Application definition

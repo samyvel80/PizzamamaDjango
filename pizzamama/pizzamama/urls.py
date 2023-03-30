@@ -14,10 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include,re_path
 from rest_framework.authtoken.views import obtain_auth_token
+######for displaying static page collectstatic
+from django.conf import settings
+from django.views.static import serve
+#############################################
+
 #from rest_framework import routers
-from menu.views import PizzaViewset
+#from menu.views import PizzaViewset
 #router = routers.SimpleRouter()
 #router.register('PizzaViewset', PizzaViewset, basename='pizzaviewset')
 
@@ -28,4 +33,6 @@ urlpatterns = [
     #path('pizza-api/', include('router.urls')),
     path('pizza/', include('pizzamama.routers')),
     path('auth', obtain_auth_token),
+    #for displaying static page
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT})
 ]
