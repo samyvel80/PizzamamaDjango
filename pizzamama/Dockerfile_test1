@@ -1,0 +1,19 @@
+FROM python:3.9.5-slim
+
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir /code
+
+WORKDIR /code/
+
+COPY requirements.txt /code/
+
+RUN pip3 install --user -r ./requirements.txt
+
+#EXPOSE 8000
+#COPY . /code/
+RUN mkdir pizzamama
+WORKDIR /code/pizzamama
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/root/.local/bin/gunicorn", "--bind", "0.0.0.0:8000","--preload", "--workers", "4", "pizzamama.wsgi:application"]
+

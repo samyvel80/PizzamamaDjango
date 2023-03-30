@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  app:
+    image: app_sam:v5
+
+#    stdin_open: true
+#    tty: true
+    
+    volumes:
+      - C:/Users/Pascal/AppPython/PizzamamaDjango/pizzamama:/code/pizzamama
+    ports:
+      - 80:8000
+    container_name: django_container
+
+    
+
+    #command: python manage.py runserver 0.0.0.0:80
+    
